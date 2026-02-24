@@ -1,0 +1,42 @@
+name: Integration Tests
+
+on:
+    workflow_dispatch:
+    schedule:
+        # Run daily at 6am UTC
+        - cron: '0 6 * * *'
+
+env:
+    CI: true
+
+jobs:
+    integration:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build
+              run: pnpm build
+
+            - name: Run integration tests
+              run: pnpm test:integration
+              env:
+                  SMOOAI_CLIENT_ID: ${{ secrets.E2E_CLIENT_ID }}
+                  SMOOAI_CLIENT_SECRET: ${{ secrets.E2E_CLIENT_SECRET }}
+                  SMOOAI_ORG_ID: ${{ secrets.E2E_ORG_ID }}
+                  SMOOAI_API_URL: ${{ secrets.E2E_BASE_URL }}
+                  SMOOAI_AUTH_URL: ${{ secrets.E2E_AUTH_URL }}
