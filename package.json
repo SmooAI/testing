@@ -43,7 +43,7 @@
         "format:check": "oxfmt --check .",
         "lint": "oxlint --ignore-pattern dist .",
         "lint:fix": "oxlint --ignore-pattern dist --fix .",
-        "pre-commit-check": "(zsh .husky/pre-commit)",
+        "pre-commit-check": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test",
         "prepare": "husky",
         "test": "vitest run --passWithNoTests",
         "test:integration": "vitest run --passWithNoTests --config vitest.integration.config.mts",
