@@ -1,5 +1,11 @@
 # @smooai/testing
 
+## 1.0.1
+
+### Patch Changes
+
+- 17d5122: Fix release workflow race condition and pre-commit-check circular reference
+
 ## 1.0.0
 
 ### Major Changes
