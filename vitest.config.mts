@@ -5,6 +5,6 @@ export default defineConfig({
     plugins: [tsconfigPaths()],
     test: {
         passWithNoTests: true,
-        exclude: [...defaultExclude, 'src/**/*.integration.test.ts', 'e2e/**'],
+        exclude: [...defaultExclude, 'src/**/*.integration.test.ts', 'tests/integration/**'],
     },
 });
