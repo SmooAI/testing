@@ -15,6 +15,7 @@ interface ReportOptions {
     environment?: string;
     deploymentId?: string;
     tool?: string;
+    tags?: string;
     buildName?: string;
     buildUrl?: string;
 }
@@ -45,6 +46,7 @@ export async function reportLogic(
 
     if (options.environment) runBody.environment = options.environment;
     if (options.deploymentId) runBody.deploymentId = options.deploymentId;
+    if (options.tags) runBody.tags = options.tags.split(',').map((t: string) => t.trim());
 
     // Build URL from GitHub Actions context
     if (options.buildUrl) {
@@ -112,6 +114,7 @@ function ReportUI({ ctrfFile, options }: { ctrfFile: string; options: ReportOpti
                 };
                 if (options.environment) runBody.environment = options.environment;
                 if (options.deploymentId) runBody.deploymentId = options.deploymentId;
+                if (options.tags) runBody.tags = options.tags.split(',').map((t: string) => t.trim());
                 if (options.buildUrl) {
                     runBody.buildUrl = options.buildUrl;
                 } else if (process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID) {

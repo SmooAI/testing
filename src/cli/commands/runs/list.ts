@@ -8,6 +8,7 @@ interface ListOptions {
     status?: string;
     environmentId?: string;
     tool?: string;
+    tags?: string;
     limit?: string;
     offset?: string;
 }
@@ -21,6 +22,7 @@ export async function runList(options: ListOptions): Promise<void> {
             status: options.status,
             environmentId: options.environmentId,
             tool: options.tool,
+            tags: options.tags,
             limit: options.limit,
             offset: options.offset,
         });

@@ -10,6 +10,7 @@ interface CreateOptions {
     environmentId?: string;
     deploymentId?: string;
     tool?: string;
+    tags?: string;
     runnerName?: string;
     runnerUrl?: string;
 }
@@ -24,6 +25,7 @@ export async function runCreate(options: CreateOptions): Promise<void> {
         if (options.environmentId) body.environmentId = options.environmentId;
         if (options.deploymentId) body.deploymentId = options.deploymentId;
         if (options.tool) body.tool = options.tool;
+        if (options.tags) body.tags = options.tags.split(',').map((t: string) => t.trim());
         if (options.runnerName) body.runnerName = options.runnerName;
         if (options.runnerUrl) body.runnerUrl = options.runnerUrl;
 
