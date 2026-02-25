@@ -1,6 +1,6 @@
 {
     "name": "@smooai/testing",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Smoo AI Testing SDK — CLI and library for interacting with the Smoo AI Testing API. Report test results, manage test runs, cases, environments, and deployments.",
     "homepage": "https://github.com/SmooAI/testing#readme",
     "bugs": {
