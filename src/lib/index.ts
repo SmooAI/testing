@@ -215,6 +215,7 @@ export class SmooTestingClient {
             environment?: string;
             deploymentId?: string;
             tool?: string;
+            tags?: string[];
             buildName?: string;
             buildUrl?: string;
         },
@@ -227,6 +228,7 @@ export class SmooTestingClient {
             environment: options?.environment,
             deploymentId: options?.deploymentId,
             tool: options?.tool ?? ctrf.results.tool?.name,
+            tags: options?.tags,
             buildName: options?.buildName,
             buildUrl: options?.buildUrl,
         });

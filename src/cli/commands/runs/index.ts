@@ -10,6 +10,7 @@ export function createRunsCommand(program: Command): Command {
         .option('--environment-id <id>', 'Environment ID')
         .option('--deployment-id <id>', 'Deployment ID')
         .option('--tool <name>', 'Tool name (e.g., vitest, playwright)')
+        .option('--tags <tags>', 'Comma-separated tags (e.g., e2e,brent-rager)')
         .option('--runner-name <name>', 'Runner name')
         .option('--runner-url <url>', 'Runner URL')
         .action(async (opts) => {
@@ -22,6 +23,7 @@ export function createRunsCommand(program: Command): Command {
         .option('--status <status>', 'Filter by status')
         .option('--environment-id <id>', 'Filter by environment ID')
         .option('--tool <name>', 'Filter by tool')
+        .option('--tags <tags>', 'Filter by tags (comma-separated)')
         .option('--limit <n>', 'Max results', '50')
         .option('--offset <n>', 'Offset', '0')
         .action(async (opts) => {
@@ -53,6 +55,7 @@ export function createRunsCommand(program: Command): Command {
         .option('--environment <name>', 'Environment name')
         .option('--deployment-id <id>', 'Deployment ID')
         .option('--tool <name>', 'Override tool name from CTRF')
+        .option('--tags <tags>', 'Comma-separated tags (e.g., e2e,brent-rager)')
         .option('--build-name <name>', 'Build name (e.g., git SHA)')
         .option('--build-url <url>', 'Build URL (e.g., CI run link)')
         .action(async (ctrfFile, opts) => {

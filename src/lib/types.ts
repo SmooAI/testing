@@ -31,6 +31,7 @@ export interface TestRun {
     deploymentId: string | null;
     name: string;
     tool: string | null;
+    tags: string[] | null;
     status: string;
     summary: TestRunSummary | null;
     durationMs: number | null;
@@ -51,6 +52,7 @@ export interface CreateTestRunInput {
     environmentId?: string;
     deploymentId?: string;
     tool?: string;
+    tags?: string[];
     buildName?: string;
     buildUrl?: string;
     runnerName?: string;
@@ -64,6 +66,7 @@ export interface UpdateTestRunInput {
     completedAt?: string;
     startedAt?: string;
     tool?: string;
+    tags?: string[];
     metadata?: Record<string, unknown>;
 }
 
@@ -73,6 +76,7 @@ export interface ListTestRunsFilters {
     status?: string;
     environmentId?: string;
     tool?: string;
+    tags?: string;
     runnerName?: string;
     startDate?: string;
     endDate?: string;
