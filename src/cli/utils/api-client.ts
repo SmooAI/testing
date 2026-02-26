@@ -2,6 +2,7 @@
  * HTTP client wrapper with M2M auth for the Smoo AI Testing API.
  */
 
+import fetch from '@smooai/fetch';
 import type { Credentials } from '../../lib/types';
 import { clearTokenCache, getAuthToken } from './auth';
 
