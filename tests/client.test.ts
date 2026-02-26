@@ -1,22 +1,26 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { SmooTestingClient } from '../src/lib/index';
 
-describe('SmooTestingClient', () => {
-    let originalFetch: typeof global.fetch;
+// Mock @smooai/fetch module
+const { mockFetch } = vi.hoisted(() => ({
+    mockFetch: vi.fn(),
+}));
+vi.mock('@smooai/fetch', () => ({
+    default: mockFetch,
+}));
 
+describe('SmooTestingClient', () => {
     beforeEach(() => {
-        originalFetch = global.fetch;
+        vi.clearAllMocks();
     });
 
     afterEach(() => {
-        global.fetch = originalFetch;
         vi.restoreAllMocks();
     });
 
     function mockFetchSequence(...responses: Array<{ ok: boolean; status?: number; body?: unknown }>) {
-        const mock = vi.fn();
         for (const resp of responses) {
-            mock.mockResolvedValueOnce({
+            mockFetch.mockResolvedValueOnce({
                 ok: resp.ok,
                 status: resp.status ?? (resp.ok ? 200 : 500),
                 statusText: resp.ok ? 'OK' : 'Error',
@@ -24,8 +28,7 @@ describe('SmooTestingClient', () => {
                 text: () => Promise.resolve(JSON.stringify(resp.body ?? '')),
             } as Response);
         }
-        global.fetch = mock;
-        return mock;
+        return mockFetch;
     }
 
     it('instantiates with required options', () => {
