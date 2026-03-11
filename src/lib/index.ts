@@ -3,6 +3,7 @@
  */
 
 import { readFileSync } from 'fs';
+import fetch from '@smooai/fetch';
 import type {
     CtrfReport,
     CreateDeploymentInput,
