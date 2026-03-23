@@ -1,5 +1,11 @@
 # @smooai/testing
 
+## 1.3.0
+
+### Minor Changes
+
+- 663247c: Add --additional-org-ids flag to `runs report` command for pushing test results to multiple organizations in a single invocation
+
 ## 1.1.0
 
 ### Minor Changes
