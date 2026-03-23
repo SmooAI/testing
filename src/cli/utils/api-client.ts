@@ -70,4 +70,12 @@ export class ApiClient {
     async delete<T>(path: string): Promise<T> {
         return this.request<T>('DELETE', this.orgPath(path));
     }
+
+    /**
+     * Create a new ApiClient with the same auth credentials but a different org ID.
+     * Useful for pushing results to multiple organizations with cross-org M2M tokens.
+     */
+    withOrgId(orgId: string): ApiClient {
+        return new ApiClient({ ...this.credentials, orgId });
+    }
 }

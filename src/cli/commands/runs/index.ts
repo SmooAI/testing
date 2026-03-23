@@ -58,6 +58,7 @@ export function createRunsCommand(program: Command): Command {
         .option('--tags <tags>', 'Comma-separated tags (e.g., e2e,brent-rager)')
         .option('--build-name <name>', 'Build name (e.g., git SHA)')
         .option('--build-url <url>', 'Build URL (e.g., CI run link)')
+        .option('--additional-org-ids <ids>', 'Comma-separated org IDs to also push results to')
         .action(async (ctrfFile, opts) => {
             const { runReport } = await import('./report');
             runReport(ctrfFile, { ...opts, json: program.opts().json ?? opts.json });
