@@ -3,6 +3,7 @@
  * Authenticates via client_credentials grant type against the Smoo AI auth service.
  */
 
+import fetch from '@smooai/fetch';
 import type { Credentials, TokenResponse } from '../../lib/types';
 
 let cachedToken: string | null = null;
