@@ -1,4 +1,4 @@
-import { defineConfig, type Options } from 'tsup';
+import { defineConfig, type Options } from 'tsdown';
 
 export default defineConfig((options: Options) => ({
     entry: ['src/index.ts', 'src/lib/types.ts'],
@@ -7,6 +7,6 @@ export default defineConfig((options: Options) => ({
     format: ['cjs', 'esm'],
     sourcemap: true,
     target: 'es2022',
-    treeShaking: true,
+    treeshake: true,
     ...options,
 }));
