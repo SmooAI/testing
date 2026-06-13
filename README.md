@@ -1,29 +1,22 @@
 <a name="readme-top"></a>
 
 <p align="center">
-  <a href="https://smoo.ai"><img src="https://smoo.ai/images/logo/logo.svg" alt="Smoo AI" width="220" /></a>
-</p>
-
-<h1 align="center">@smooai/testing</h1>
-
-<p align="center">
-  <strong>CLI and library for the Smoo AI Testing API — report test results and manage runs, cases, environments, and deployments.</strong>
+  <a href="https://smoo.ai"><img src=".github/banner.png" alt="@smooai/testing — Report test results to Smoo AI" width="100%" /></a>
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@smooai/testing"><img src="https://img.shields.io/npm/v/@smooai/testing?style=flat-square&color=00A6A6&label=npm" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/@smooai/testing"><img src="https://img.shields.io/npm/v/@smooai/testing?style=for-the-badge&color=00A6A6&label=npm&logo=npm&logoColor=white&labelColor=020618" alt="npm"></a>
+  <a href="https://smoo.ai"><img src="https://img.shields.io/badge/Smoo_AI-platform-00A6A6?style=for-the-badge&labelColor=020618" alt="Smoo AI"></a>
+  <img src="https://img.shields.io/badge/license-MIT-F49F0A?style=for-the-badge&labelColor=020618" alt="license">
+</p>
+
+<p align="center">
   <a href="https://www.npmjs.com/package/@smooai/testing"><img src="https://img.shields.io/npm/dw/@smooai/testing?style=flat-square&color=F49F0A&label=downloads" alt="downloads"></a>
-  <img src="https://img.shields.io/badge/Smoo_AI-platform-00A6A6?style=flat-square" alt="Smoo AI">
-  <img src="https://img.shields.io/badge/license-MIT-F49F0A?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> ·
-  <a href="#install">Install</a> ·
-  <a href="#usage">Usage</a> ·
-  <a href="#cli-commands">CLI</a> ·
-  <a href="#part-of-smoo-ai">Platform</a>
+  <a href="#-features"><b>Features</b></a> &nbsp;·&nbsp; <a href="#-install"><b>Install</b></a> &nbsp;·&nbsp; <a href="#-usage"><b>Usage</b></a> &nbsp;·&nbsp; <a href="#-cli-commands"><b>CLI</b></a> &nbsp;·&nbsp; <a href="#-part-of-smoo-ai"><b>Platform</b></a>
 </p>
 
 ---
@@ -181,14 +174,11 @@ pnpm check-all    # All checks (CI parity)
 
 ## 🧩 Part of Smoo AI <a name="part-of-smoo-ai"></a>
 
-@smooai/testing is part of the [Smoo AI](https://smoo.ai) platform — an AI-powered business platform with AI built into every product. It's the client for our hosted Testing API; the rest of the platform shares the same open-source toolbox.
+`@smooai/testing` is built and open-sourced by **[Smoo AI](https://smoo.ai)** — the AI-powered business platform with AI built into every product: CRM, customer support, campaigns, field service, observability, and developer tools.
 
-- [@smooai/utils](https://github.com/SmooAI/utils) — foundational TypeScript utilities
-- [@smooai/logger](https://github.com/SmooAI/logger) — contextual structured logging
-- [@smooai/fetch](https://github.com/SmooAI/fetch) — typed HTTP with retries
-- [@smooai/config](https://github.com/SmooAI/config) — typed config, secrets, and feature flags
-
-Browse everything at [github.com/SmooAI](https://github.com/SmooAI).
+- 🚀 **Testing on the platform** — [smoo.ai/platform/testing](https://smoo.ai/platform/testing)
+- 🧰 **More open source from Smoo AI** — [smoo.ai/open-source](https://smoo.ai/open-source)
+- 🧩 **Sibling packages** — [@smooai/utils](https://github.com/SmooAI/utils), [@smooai/logger](https://github.com/SmooAI/logger), [@smooai/fetch](https://github.com/SmooAI/fetch), [@smooai/config](https://github.com/SmooAI/config)
 
 ## 📄 License <a name="license"></a>
 
