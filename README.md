@@ -1,10 +1,44 @@
-# @smooai/testing
+<a name="readme-top"></a>
 
-Smoo AI Testing SDK — CLI and library for interacting with the Smoo AI Testing API.
+<p align="center">
+  <a href="https://smoo.ai"><img src="https://smoo.ai/images/logo/logo.svg" alt="Smoo AI" width="220" /></a>
+</p>
 
-Report test results, manage test runs, cases, environments, and deployments.
+<h1 align="center">@smooai/testing</h1>
 
-## Installation
+<p align="center">
+  <strong>CLI and library for the Smoo AI Testing API — report test results and manage runs, cases, environments, and deployments.</strong>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@smooai/testing"><img src="https://img.shields.io/npm/v/@smooai/testing?style=flat-square&color=00A6A6&label=npm" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/@smooai/testing"><img src="https://img.shields.io/npm/dw/@smooai/testing?style=flat-square&color=F49F0A&label=downloads" alt="downloads"></a>
+  <img src="https://img.shields.io/badge/Smoo_AI-platform-00A6A6?style=flat-square" alt="Smoo AI">
+  <img src="https://img.shields.io/badge/license-MIT-F49F0A?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#install">Install</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#cli-commands">CLI</a> ·
+  <a href="#part-of-smoo-ai">Platform</a>
+</p>
+
+---
+
+> Report test results to Smoo AI and manage your test program from the command line or in code. Pipe CTRF reports straight from CI, or drive runs, cases, environments, and deployments programmatically.
+
+## ✨ Features <a name="features"></a>
+
+- Report CTRF test results from any test runner, straight from CI
+- Manage test runs, cases, environments, and deployments
+- Use it as a CLI or as a typed TypeScript library
+- `--json` output on every command (auto-enabled when piped)
+- M2M auth via `login` or environment variables for CI/CD
+
+## 📦 Install <a name="install"></a>
 
 ```bash
 npm install @smooai/testing
@@ -12,9 +46,9 @@ npm install @smooai/testing
 pnpm add @smooai/testing
 ```
 
-## Quick Start
+## 🚀 Usage <a name="usage"></a>
 
-### CLI: Report test results
+### CLI: report test results
 
 ```bash
 # Authenticate
@@ -29,7 +63,7 @@ npx @smooai/testing runs report ctrf-report.json \
   --name "PR #42 Tests"
 ```
 
-### Library: Programmatic usage
+### Library: programmatic usage
 
 ```typescript
 import { SmooTestingClient } from '@smooai/testing';
@@ -51,7 +85,7 @@ const runs = await client.listRuns({ status: 'failed' });
 const envs = await client.listEnvironments();
 ```
 
-## CLI Commands
+## 📖 CLI commands <a name="cli-commands"></a>
 
 ### Authentication
 
@@ -61,7 +95,7 @@ smooai-testing logout
 smooai-testing status
 ```
 
-### Test Runs
+### Test runs
 
 ```bash
 smooai-testing runs create --name "Run Name" [--environment prod] [--tool vitest]
@@ -71,7 +105,7 @@ smooai-testing runs update <run-id> --status completed
 smooai-testing runs report <ctrf-file> [--name "Run"] [--environment prod]
 ```
 
-### Test Cases
+### Test cases
 
 ```bash
 smooai-testing cases create --title "Test login flow" [--priority high] [--tags "auth,e2e"]
@@ -100,7 +134,7 @@ smooai-testing deployments update <deployment-id> --status success
 smooai-testing deployments delete <deployment-id>
 ```
 
-## JSON Output
+### JSON output
 
 All commands support `--json` for machine-readable output:
 
@@ -110,7 +144,7 @@ smooai-testing runs list --json | jq '.data[].id'
 
 JSON mode is auto-enabled when output is piped (no TTY).
 
-## CI/CD Usage
+## 🤖 CI/CD usage
 
 Set environment variables instead of using `login`:
 
@@ -133,7 +167,7 @@ GitHub Actions example:
       SMOOAI_ORG_ID: ${{ secrets.SMOOAI_ORG_ID }}
 ```
 
-## Development
+## 🔧 Development
 
 ```bash
 pnpm install
@@ -145,6 +179,23 @@ pnpm format       # Format code
 pnpm check-all    # All checks (CI parity)
 ```
 
-## License
+## 🧩 Part of Smoo AI <a name="part-of-smoo-ai"></a>
+
+@smooai/testing is part of the [Smoo AI](https://smoo.ai) platform — an AI-powered business platform with AI built into every product. It's the client for our hosted Testing API; the rest of the platform shares the same open-source toolbox.
+
+- [@smooai/utils](https://github.com/SmooAI/utils) — foundational TypeScript utilities
+- [@smooai/logger](https://github.com/SmooAI/logger) — contextual structured logging
+- [@smooai/fetch](https://github.com/SmooAI/fetch) — typed HTTP with retries
+- [@smooai/config](https://github.com/SmooAI/config) — typed config, secrets, and feature flags
+
+Browse everything at [github.com/SmooAI](https://github.com/SmooAI).
+
+## 📄 License <a name="license"></a>
 
 MIT
+
+---
+
+<p align="center">
+  Built by <a href="https://smoo.ai"><strong>Smoo AI</strong></a> — AI built into every product.
+</p>
