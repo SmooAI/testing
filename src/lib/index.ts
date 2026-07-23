@@ -4,6 +4,9 @@
 
 import { readFileSync } from 'fs';
 import type {
+    CoverageFileCounters,
+    CoverageReport,
+    CreateCoverageReportInput,
     CtrfReport,
     CreateDeploymentInput,
     CreateTestCaseInput,
@@ -11,6 +14,8 @@ import type {
     CreateTestRunInput,
     Credentials,
     Deployment,
+    LcovSummary,
+    ListCoverageReportsFilters,
     ListDeploymentsFilters,
     ListTestCasesFilters,
     ListTestRunsFilters,
@@ -245,4 +250,117 @@ export class SmooTestingClient {
 
         return this.getRun(run.id);
     }
+
+    // ── Coverage (SMOODEV-2721) ──
+
+    async reportCoverage(input: CreateCoverageReportInput): Promise<CoverageReport> {
+        return this.request<CoverageReport>('POST', '/testing/coverage', input);
+    }
+
+    /**
+     * List coverage reports. With `{ latest: true, branch }` returns the latest
+     * report per scope on that branch (a bare array — the diff baseline);
+     * otherwise a paginated envelope.
+     */
+    async listCoverage(filters?: ListCoverageReportsFilters): Promise<CoverageReport[] | PaginatedResponse<CoverageReport>> {
+        const qs = this.buildQueryString(filters as Record<string, string | number | undefined>);
+        return this.request<CoverageReport[] | PaginatedResponse<CoverageReport>>('GET', `/testing/coverage${qs}`);
+    }
+
+    /**
+     * High-level: parse an LCOV file and upload its summary for a scope.
+     * Per-file detail is dropped above the API's 5000-file cap.
+     */
+    async reportCoverageFromLcov(
+        lcovFilePath: string,
+        options: {
+            scope: string;
+            branch: string;
+            commitSha: string;
+            testRunId?: string;
+            includeFiles?: boolean;
+        },
+    ): Promise<CoverageReport> {
+        const summary = parseLcov(readFileSync(lcovFilePath, 'utf-8'));
+        const includeFiles = options.includeFiles !== false && Object.keys(summary.files).length <= 5000;
+        return this.reportCoverage({
+            scope: options.scope,
+            branch: options.branch,
+            commitSha: options.commitSha,
+            testRunId: options.testRunId,
+            linesCovered: summary.linesCovered,
+            linesTotal: summary.linesTotal,
+            ...(summary.branchesTotal > 0 ? { branchesCovered: summary.branchesCovered, branchesTotal: summary.branchesTotal } : {}),
+            ...(summary.functionsTotal > 0 ? { functionsCovered: summary.functionsCovered, functionsTotal: summary.functionsTotal } : {}),
+            ...(includeFiles ? { files: summary.files } : {}),
+        });
+    }
+}
+
+/**
+ * Parse LCOV text into totals + per-file counters. Prefers `LF:`/`LH:` and
+ * falls back to counting `DA:` lines when an emitter omits them.
+ */
+export function parseLcov(text: string): LcovSummary {
+    const summary: LcovSummary = {
+        linesCovered: 0,
+        linesTotal: 0,
+        branchesCovered: 0,
+        branchesTotal: 0,
+        functionsCovered: 0,
+        functionsTotal: 0,
+        files: {},
+    };
+    let path: string | null = null;
+    let counters = [0, 0, 0, 0, 0, 0] as CoverageFileCounters;
+    let daFound = 0;
+    let daHit = 0;
+    let sawLf = false;
+
+    for (const rawLine of text.split('\n')) {
+        const line = rawLine.trim();
+        if (line.startsWith('SF:')) {
+            path = line.slice(3).trim();
+            counters = [0, 0, 0, 0, 0, 0];
+            daFound = 0;
+            daHit = 0;
+            sawLf = false;
+        } else if (path == null) {
+            continue;
+        } else if (line.startsWith('LF:')) {
+            counters[1] = Number(line.slice(3)) || 0;
+            sawLf = true;
+        } else if (line.startsWith('LH:')) {
+            counters[0] = Number(line.slice(3)) || 0;
+        } else if (line.startsWith('BRF:')) {
+            counters[3] = Number(line.slice(4)) || 0;
+        } else if (line.startsWith('BRH:')) {
+            counters[2] = Number(line.slice(4)) || 0;
+        } else if (line.startsWith('FNF:')) {
+            counters[5] = Number(line.slice(4)) || 0;
+        } else if (line.startsWith('FNH:')) {
+            counters[4] = Number(line.slice(4)) || 0;
+        } else if (line.startsWith('DA:')) {
+            daFound += 1;
+            const hit = Number(line.slice(3).split(',')[1]);
+            if (hit > 0) daHit += 1;
+        } else if (line === 'end_of_record') {
+            if (!sawLf) {
+                counters[1] = daFound;
+                counters[0] = daHit;
+            }
+            summary.files[path] = counters;
+            summary.linesCovered += counters[0];
+            summary.linesTotal += counters[1];
+            summary.branchesCovered += counters[2];
+            summary.branchesTotal += counters[3];
+            summary.functionsCovered += counters[4];
+            summary.functionsTotal += counters[5];
+            path = null;
+        }
+    }
+    if (Object.keys(summary.files).length === 0) {
+        throw new Error('no SF:/end_of_record records found — is this an LCOV file?');
+    }
+    return summary;
 }
