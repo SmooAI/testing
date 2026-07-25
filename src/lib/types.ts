@@ -321,3 +321,66 @@ export interface SmooTestingClientOptions {
     apiUrl?: string;
     authUrl?: string;
 }
+
+// ── Coverage (SMOODEV-2721) ──
+
+/** Per-file coverage counters: [linesHit, linesFound, branchesHit, branchesFound, functionsHit, functionsFound]. */
+export type CoverageFileCounters = [number, number, number, number, number, number];
+
+export interface CoverageReport {
+    id: string;
+    organizationId: string;
+    testRunId: string | null;
+    scope: string;
+    branch: string;
+    commitSha: string;
+    format: string;
+    linesCovered: number;
+    linesTotal: number;
+    branchesCovered: number | null;
+    branchesTotal: number | null;
+    functionsCovered: number | null;
+    functionsTotal: number | null;
+    /** Present on the POST echo; list reads return null (stripped server-side). */
+    files: Record<string, CoverageFileCounters> | null;
+    metadata: Record<string, unknown> | null;
+    createdAt: string;
+}
+
+export interface CreateCoverageReportInput {
+    scope: string;
+    branch: string;
+    commitSha: string;
+    linesCovered: number;
+    linesTotal: number;
+    branchesCovered?: number;
+    branchesTotal?: number;
+    functionsCovered?: number;
+    functionsTotal?: number;
+    testRunId?: string;
+    format?: string;
+    /** Max 5000 entries — the API rejects larger; drop per-file detail instead. */
+    files?: Record<string, CoverageFileCounters>;
+    metadata?: Record<string, unknown>;
+}
+
+export interface ListCoverageReportsFilters {
+    branch?: string;
+    scope?: string;
+    commitSha?: string;
+    /** With `branch`: return the latest report per scope (bare array, the baseline). */
+    latest?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+/** Parsed LCOV summary produced by `parseLcov`. */
+export interface LcovSummary {
+    linesCovered: number;
+    linesTotal: number;
+    branchesCovered: number;
+    branchesTotal: number;
+    functionsCovered: number;
+    functionsTotal: number;
+    files: Record<string, CoverageFileCounters>;
+}
